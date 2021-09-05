@@ -1,48 +1,89 @@
-# Fauna GraphQL Guestbook Starter
+# :zap: Next Fauna Data
 
-This Guestbook Single-Page Application (SPA) example shows you how to use [Fauna's GraphQL endpoint](https://docs.fauna.com/fauna/current/api/graphql/) in your Next.js project.
+* A Next.js Guestbook app with Fauna backend using GraphQL, boilerplate code from Vercel
+* **Note:** to open web links in a new window use: _ctrl+click on link_
 
-## Deploy your own
+![GitHub repo size](https://img.shields.io/github/repo-size/AndrewJBateman/next-fauna-data?style=plastic)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/AndrewJBateman/next-fauna-data?style=plastic)
+![GitHub Repo stars](https://img.shields.io/github/stars/AndrewJBateman/next-fauna-data?style=plastic)
+![GitHub last commit](https://img.shields.io/github/last-commit/AndrewJBateman/next-fauna-data?style=plastic)
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+## :page_facing_up: Table of contents
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-fauna&project-name=fauna-nextjs-guestbook&repository-name=fauna-nextjs-guestbook&demo-title=Next.js%20Fauna%20Guestbook%20App&demo-description=A%20simple%20guestbook%20application%20built%20with%20Next.js%20and%20Fauna&integration-ids=oac_Erlbqm8Teb1y4WhioE3r2utY)
+* [:zap: Next Fauna Data](#zap-next-fauna-data)
+  * [:page_facing_up: Table of contents](#page_facing_up-table-of-contents)
+  * [:books: General Info](#books-general-info)
+  * [:camera: Screenshots](#camera-screenshots)
+  * [:signal_strength: Technologies](#signal_strength-technologies)
+  * [:floppy_disk: Setup](#floppy_disk-setup)
+  * [:computer: Code Examples](#computer-code-examples)
+  * [:clipboard: Status & To-Do List](#clipboard-status--to-do-list)
+  * [:clap: Inspiration](#clap-inspiration)
+  * [:file_folder: License](#file_folder-license)
+  * [:envelope: Contact](#envelope-contact)
 
-## Why Fauna
+## :books: General Info
 
-By importing a `.gql` or `.graphql` schema into Fauna ([see our sample schema file](./schema.gql)), Fauna will generate required Indexes and GraphQL resolvers for you -- hands free 👐 ([some limitations exist](https://docs.fauna.com/fauna/current/api/graphql/#limitations)).
+* [Vercel Fauna integration](https://vercel.com/integrations/fauna) project with Fauna database
+* [Fauna data API](https://fauna.com/) transactional database used as a cloud API with native GraphQL
+* [Next.js](https://nextjs.org/) used for frontend
+* [Tailwind CSS](https://tailwindcss.com/) used for styling
 
-## How to use
+## :camera: Screenshots
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+![Example screenshot](./imgs/guestbook.png)
+![Example screenshot](./imgs/db.png)
 
+## :signal_strength: Technologies
+
+* [Fauna data API](https://fauna.com/) transactional database used as a cloud API with native GraphQL with [FaunaDB Javascript Driver](https://www.npmjs.com/package/faunadb)
+* [Next v11](https://nextjs.org/) minimalist framework for rendering react apps on the server.
+* [React v17](https://reactjs.org/) Javascript library.
+* [GraphQL v15](https://graphql.org/) API query language
+* [Tailwind v2](https://tailwindcss.com/) utility-first CSS framework
+* [PostCSS v8](https://postcss.org/) tool for transforming CSS with JavaScript
+
+## :floppy_disk: Setup
+
+* `npm run dev` runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. **Note:** requires Fauna API key
+* `npm run build` builds the app for production to the `build` folder. **Note:** requests Fauna API key
+* `npm run start` to run the built app.
+
+## :computer: Code Examples - taken from Vercel boilerplate code
+
+* `lib/fauna.js` mutation function to create a new guestbook entry
+
+```javascript
+export const createGuestbookEntry = (newEntry) => {
+  const mutation = gql`
+    mutation CreateGuestbookEntry($input: GuestbookEntryInput!) {
+      createGuestbookEntry(data: $input) {
+        _id
+        _ts
+        name
+        message
+        createdAt
+      }
+    }
+  `
+
+  return graphQLClient.request(mutation, { input: newEntry })
+}
 ```
-npx create-next-app --example with-fauna with-fauna-app
-# or
-yarn create next-app --example with-fauna with-fauna-app
-```
 
-You can start with this template [using `create-next-app`](#using-create-next-app) or by [downloading the repository manually](#download-manually).
+## :clipboard: Status & To-Do List
 
-To use a live Fauna database, create a database at [dashboard.fauna.com](https://dashboard.fauna.com/) and generate an admin token by going to the **Security** tab on the left and then click **New Key**. Give the new key a name and select the 'Admin' Role. Copy the token since the setup script will ask for it. Do not use it in the frontend, it has superpowers which you don't want to give to your users.
+* Status: Working. Deployed to Vercel
+* To-Do: Add extra fields and a user image/icon. Need Fauna API key to run dev. server
 
-### Setting Up Your Schema
+## :clap: Inspiration
 
-The Next.js and Fauna example includes a setup script (`npm run setup`). After providing your admin token, the script will:
+* [Fauna GraphQL Reference](https://docs.fauna.com/fauna/current/api/graphql/)
 
-- **Import your GraphQL schema:** Fauna automatically sets up collections and indexes to support your queries. You can view these in your [project dashboard](https://dashboard.fauna.com/) under **GraphQL**.
-- **Create an index and function:** The script will create a GraphQL resolver that uses [User-defined functions](https://docs.fauna.com/fauna/current/api/graphql/functions?lang=javascript) based on a sorting index.
-- **Create a scoped token:** This token is for use on the client side. The admin key can be used on the server side.
+## :file_folder: License
 
-After the script completes, a `.env.local` [file](https://nextjs.org/docs/basic-features/environment-variables) will be created for you with the newly generated client token assigned to an Environment Variable.
+* N/A
 
-### Run locally
+## :envelope: Contact
 
-Install packages, set up if needed, then run the development server:
-
-```bash
-npm install
-npm run dev
-```
-
-Your app should be up and running on [http://localhost:3000](http://localhost:3000)!
+* Repo created by [ABateman](https://github.com/AndrewJBateman), email: gomezbateman@yahoo.com
